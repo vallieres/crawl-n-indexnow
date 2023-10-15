@@ -1,0 +1,32 @@
+version: '3'
+
+tasks:
+
+  install:
+    desc: Install Pre-requisites
+    summary: Installs the various tools needed to work with this project
+    cmds:
+      - go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.51.2
+      - go install mvdan.cc/gofumpt@latest
+      - go install gotest.tools/gotestsum@latest
+
+  format:
+    desc: Run 'goimports' to format go imports
+    summary: Runs goimports on all files with -local support, can also replace gofmt
+    cmds:
+      - goimports -local github.com/vallieres -w .
+      - go mod tidy
+      - gofumpt -l -w .
+
+  lint:
+    desc: Code Linting
+    summary: Lint the project files with golangci-lint
+    cmds:
+      - golangci-lint run -c .golangci.yml
+
+  test:
+    desc: Run the tests
+    summary: Runs the tests
+    cmds:
+      - gotestsum ./... -race -count=1 -p 1 -coverprofile=coverage.out -coverpkg=./...
+      - go tool cover -html=coverage.out -o coverage.html
