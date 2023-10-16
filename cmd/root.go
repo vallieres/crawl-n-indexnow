@@ -20,7 +20,6 @@ func Root() *cobra.Command {
 Crawl n' Index is a simple CLI that pulls your Shopify site's URL, and 
 submits them to various indexes to speed up the indexing process.
 `,
-
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return cmd.Help()
 		},

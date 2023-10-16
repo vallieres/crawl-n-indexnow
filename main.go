@@ -23,7 +23,9 @@ func main() {
 	root := cmd.Root()
 
 	root.AddCommand(
-		cmd.All())
+		cmd.All(),
+		cmd.IndexNow(),
+	)
 
 	if err := root.ExecuteContext(ctx); err != nil {
 		fmt.Println("failed to run command", err.Error())
