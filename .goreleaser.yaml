@@ -1,0 +1,45 @@
+# This is an example .goreleaser.yml file with some sensible defaults.
+# Make sure to check the documentation at https://goreleaser.com
+project_name: crawl-n-index
+before:
+  hooks:
+    - goimports -local github.com/vallieres -w .
+    - go mod tidy
+    - go generate ./...
+    - gofumpt -l -w .
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - darwin
+      - linux
+      - windows
+    goarch:
+      - amd64
+      - arm64
+archives:
+  -
+    format: binary
+    name_template: >-
+      {{ .Binary }}_
+      {{- .Os }}_
+      {{- if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- if .Arm }}v{{ .Arm }}{{ end }}
+
+#signs:
+#    - artifacts: checksum
+checksum:
+  name_template: 'checksums.txt'
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+release:
+  github:
+    owner: vallieres
+    name: crawl-n-index
