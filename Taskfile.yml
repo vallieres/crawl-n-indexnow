@@ -30,3 +30,30 @@ tasks:
     cmds:
       - gotestsum ./... -race -count=1 -p 1 -coverprofile=coverage.out -coverpkg=./...
       - go tool cover -html=coverage.out -o coverage.html
+
+  release:
+    desc: Releases a new version
+    summary: Release a new version of Crawl n' Index
+    silent: true
+    cmds:
+      - |
+        echo -e "\nℹ️  This command will prompt you to provide the Git tag and Release name \n   in order to release a new version of Crawl n' Index.\n"
+        LATEST=$(git describe --tags $(git rev-list --tags --max-count=1))
+        BRANCH=$(git symbolic-ref --short -q HEAD)
+        if [ "$BRANCH" != "main" ]; then
+          echo -e "\n❗Tags should be created on an up-to-date main branch!❗"
+          exit
+        fi
+        echo -e "→ Latest tag: $LATEST \n"
+        echo "Enter the new tag (include the "v"):"
+        read TAG;
+        echo "Enter the release name:"
+        read NAME;
+        echo -e "\nYou typed: ${TAG}, ${NAME} \nType Enter to continue or Ctrl+D to exit...";
+        read NIL;
+        echo -e "→ Creating the Git tag ${TAG}..."
+        git tag -a ${TAG} -m "${NAME}"
+        git push origin ${TAG}
+        echo -e "\n→ Generating GoReleaser release..."
+        goreleaser release --clean
+        echo -e "\n✅ Completed!"
