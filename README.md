@@ -1,7 +1,7 @@
 <!-- markdownlint-disable MD002 MD013 MD033 MD041 -->
 <h1 align="center">
   <a name="logo" href="https://github.com/vallieres/crawl-n-index">
-    <img src="" alt="Crawl n' Index" width="200"></a>
+    <img src="https://github.com/vallieres/crawl-n-index/assets/182217/01bf723d-b7c9-476e-8271-817e5ee3a4d2" alt="Crawl n' Index" width="200"></a>
   <br>
   Crawl n' Index
 </h1>
