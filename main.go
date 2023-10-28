@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/vallieres/crawl-n-index/cmd"
+	"github.com/vallieres/crawl-n-indexnow/cmd"
 )
 
 func main() {

@@ -7,16 +7,19 @@ import (
 	"github.com/spf13/cobra"
 )
 
+const CrawlNIndexNowASCII = `
+  _____ ___   ___  _      __ __         _   ____ _  __ ___   ____ _  __ _  __ ____  _      __
+ / ___// _ \ / _ || | /| / // /    ___ ( ) /  _// |/ // _ \ / __/| |/_// |/ // __ \| | /| / /
+/ /__ / , _// __ || |/ |/ // /__  / _ \|/ _/ / /    // // // _/ _>  < /    // /_/ /| |/ |/ /
+\___//_/|_|/_/ |_||__/|__//____/ /_//_/  /___//_/|_//____//___//_/|_|/_/|_/ \____/ |__/|__/
+
+`
+
 func Root() *cobra.Command {
 	rootCmd := &cobra.Command{
-		Use:   "crawl-n-index",
+		Use:   "crawl-n-indexnow",
 		Short: "Get the goods and ship 'em to the indexes!",
-		Long: `
-  _____ ___   ___  _      __ __         _   ____ _  __ ___   ____ _  __
- / ___// _ \ / _ || | /| / // /    ___ ( ) /  _// |/ // _ \ / __/| |/_/
-/ /__ / , _// __ || |/ |/ // /__  / _ \|/ _/ / /    // // // _/ _>  <
-\___//_/|_|/_/ |_||__/|__//____/ /_//_/  /___//_/|_//____//___//_/|_|
-
+		Long: CrawlNIndexNowASCII + `
 Crawl n' Index is a simple CLI that pulls your Shopify site's URL, and 
 submits them to various indexes to speed up the indexing process.
 `,

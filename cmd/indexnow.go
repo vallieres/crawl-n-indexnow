@@ -12,8 +12,8 @@ import (
 	"github.com/gocolly/colly/v2"
 	"github.com/spf13/cobra"
 
-	"github.com/vallieres/crawl-n-index/models"
-	"github.com/vallieres/crawl-n-index/util"
+	"github.com/vallieres/crawl-n-indexnow/models"
+	"github.com/vallieres/crawl-n-indexnow/util"
 )
 
 var (
@@ -21,15 +21,16 @@ var (
 	domain, indexNowKey string
 )
 
+const (
+	Ten   = 10
+	Sixty = 60
+)
+
 func IndexNow() *cobra.Command {
 	IndexNowCmd = &cobra.Command{
 		Use:   "indexnow",
 		Short: "Sends all of the Shopify's URLs to IndexNow.",
-		Long: `
-  _____ ___   ___  _      __ __         _   ____ _  __ ___   ____ _  __
- / ___// _ \ / _ || | /| / // /    ___ ( ) /  _// |/ // _ \ / __/| |/_/
-/ /__ / , _// __ || |/ |/ // /__  / _ \|/ _/ / /    // // // _/ _>  <  
-\___//_/|_|/_/ |_||__/|__//____/ /_//_/  /___//_/|_//____//___//_/|_|
+		Long: CrawlNIndexNowASCII + `
 
 Gathers all of the Shopify's URL by parsing every single sitemap pages, 
 packages them nicely and posts them to IndexNow's API.'.
@@ -50,12 +51,7 @@ packages them nicely and posts them to IndexNow's API.'.
 }
 
 func executeIndexNow(ctx context.Context) error {
-	fmt.Println(`
-  _____ ___   ___  _      __ __         _   ____ _  __ ___   ____ _  __
- / ___// _ \ / _ || | /| / // /    ___ ( ) /  _// |/ // _ \ / __/| |/_/
-/ /__ / , _// __ || |/ |/ // /__  / _ \|/ _/ / /    // // // _/ _>  <  
-\___//_/|_|/_/ |_||__/|__//____/ /_//_/  /___//_/|_//____//___//_/|_|
-`)
+	fmt.Println(CrawlNIndexNowASCII) //nolint:govet
 
 	domainCtx, errGetDomain := util.GetDomain(ctx)
 	if errGetDomain != nil {
@@ -134,6 +130,9 @@ func GetListOfShopifyURLs(domain string) ([]string, error) {
 }
 
 func POSTtoIndexNow(domain string, indexNowKey string, pageURLs []string) (string, string, error) {
+	ctx, cancelFnc := context.WithTimeout(context.Background(), Sixty*time.Second)
+	defer cancelFnc()
+
 	requestBody := models.IndexNowRequestBody{
 		Host:        domain,
 		Key:         indexNowKey,
@@ -150,11 +149,11 @@ func POSTtoIndexNow(domain string, indexNowKey string, pageURLs []string) (strin
 
 	// Create client
 	client := &http.Client{
-		Timeout: 10 * time.Second,
+		Timeout: Ten * time.Second,
 	}
 
 	// Create request
-	req, errNewReq := http.NewRequest(http.MethodPost, "https://api.indexnow.org/IndexNow", body)
+	req, errNewReq := http.NewRequestWithContext(ctx, http.MethodPost, "https://api.indexnow.org/IndexNow", body)
 	if errNewReq != nil {
 		CPrintError("error crafting new request:", errNewReq)
 		return "", "", errNewReq

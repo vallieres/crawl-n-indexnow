@@ -6,7 +6,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/vallieres/crawl-n-index/util"
+	"github.com/vallieres/crawl-n-indexnow/util"
 )
 
 var AllCmd *cobra.Command
@@ -15,11 +15,7 @@ func All() *cobra.Command {
 	AllCmd = &cobra.Command{
 		Use:   "all",
 		Short: "Sends all of the Shopify's URLs to every single indexes.",
-		Long: `
-  _____ ___   ___  _      __ __         _   ____ _  __ ___   ____ _  __
- / ___// _ \ / _ || | /| / // /    ___ ( ) /  _// |/ // _ \ / __/| |/_/
-/ /__ / , _// __ || |/ |/ // /__  / _ \|/ _/ / /    // // // _/ _>  <  
-\___//_/|_|/_/ |_||__/|__//____/ /_//_/  /___//_/|_//____//___//_/|_|
+		Long: CrawlNIndexNowASCII + ` 
 
 Gathers all of the Shopify's URL by parsing every single sitemap pages, 
 packages them nicely and posts them to every index on file.
@@ -40,12 +36,7 @@ packages them nicely and posts them to every index on file.
 }
 
 func executeAll(ctx context.Context) error {
-	fmt.Println(`
-  _____ ___   ___  _      __ __         _   ____ _  __ ___   ____ _  __
- / ___// _ \ / _ || | /| / // /    ___ ( ) /  _// |/ // _ \ / __/| |/_/
-/ /__ / , _// __ || |/ |/ // /__  / _ \|/ _/ / /    // // // _/ _>  <  
-\___//_/|_|/_/ |_||__/|__//____/ /_//_/  /___//_/|_//____//___//_/|_|
-`)
+	fmt.Println(CrawlNIndexNowASCII) //nolint:govet
 
 	domainCtx, errGetDomain := util.GetDomain(ctx)
 	if errGetDomain != nil {

@@ -37,7 +37,7 @@ tasks:
     silent: true
     cmds:
       - |
-        echo -e "\nℹ️  This command will prompt you to provide the Git tag and Release name \n   in order to release a new version of Crawl n' Index.\n"
+        echo -e "\nℹ️  This command will prompt you to provide the Git tag and Release name \n   in order to release a new version of Crawl n' IndexNow.\n"
         LATEST=$(git describe --tags $(git rev-list --tags --max-count=1))
         BRANCH=$(git symbolic-ref --short -q HEAD)
         if [ "$BRANCH" != "main" ]; then
