@@ -24,5 +24,8 @@ go install github.com/vallieres/crawl-n-index@latest
 
 ### Submit All URLs to Index
 
-crawl-n-index all --domain legacygoods.co --key a1b3c34d  
+```bash
+crawl-n-index all --domain legacygoods.co --key a1b3c34d
+```
 
+This will crawl the domain, list the URLs and submit them all to IndexNow.
