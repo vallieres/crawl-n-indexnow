@@ -1,6 +1,6 @@
 # This is an example .goreleaser.yml file with some sensible defaults.
 # Make sure to check the documentation at https://goreleaser.com
-project_name: crawl-n-index
+project_name: crawl-n-indexnow
 before:
   hooks:
     - goimports -local github.com/vallieres -w .
@@ -42,4 +42,4 @@ changelog:
 release:
   github:
     owner: vallieres
-    name: crawl-n-index
+    name: crawl-n-indexnow
