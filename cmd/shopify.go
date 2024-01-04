@@ -26,9 +26,9 @@ const (
 	Sixty = 60
 )
 
-func IndexNow() *cobra.Command {
+func Shopify() *cobra.Command {
 	IndexNowCmd = &cobra.Command{
-		Use:   "indexnow",
+		Use:   "shopify",
 		Short: "Sends all of the Shopify's URLs to IndexNow.",
 		Long: CrawlNIndexNowASCII + `
 

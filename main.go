@@ -24,7 +24,8 @@ func main() {
 
 	root.AddCommand(
 		cmd.All(),
-		cmd.IndexNow(),
+		cmd.Shopify(),
+		cmd.Sitemap(),
 	)
 
 	if err := root.ExecuteContext(ctx); err != nil {
