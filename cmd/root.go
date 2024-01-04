@@ -15,6 +15,8 @@ const CrawlNIndexNowASCII = `
 
 `
 
+const IndexNowEndpoint = "https://api.indexnow.org/IndexNow"
+
 func Root() *cobra.Command {
 	rootCmd := &cobra.Command{
 		Use:   "crawl-n-indexnow",
