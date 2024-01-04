@@ -95,7 +95,8 @@ func GetListOfShopifyURLs(domain string) ([]string, error) {
 	})
 
 	// Start the collector
-	errVisit := c.Visit("https://" + domain + "/sitemap.xml")
+	websiteURL := fmt.Sprintf("https://%s/sitemap.xml", domain)
+	errVisit := c.Visit(websiteURL)
 	if errVisit != nil {
 		CPrintError("error visiting main sitemap: ", errVisit)
 	}
@@ -153,7 +154,7 @@ func POSTtoIndexNow(domain string, indexNowKey string, pageURLs []string) (strin
 	}
 
 	// Create request
-	req, errNewReq := http.NewRequestWithContext(ctx, http.MethodPost, "https://api.indexnow.org/IndexNow", body)
+	req, errNewReq := http.NewRequestWithContext(ctx, http.MethodPost, IndexNowEndpoint, body)
 	if errNewReq != nil {
 		CPrintError("error crafting new request:", errNewReq)
 		return "", "", errNewReq

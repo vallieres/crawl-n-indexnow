@@ -10,6 +10,8 @@ import (
 	"github.com/vallieres/crawl-n-indexnow/util"
 )
 
+const FirstTen = 10
+
 func Sitemap() *cobra.Command {
 	IndexNowCmd = &cobra.Command{
 		Use:   "sitemap",
@@ -71,7 +73,7 @@ func executeSitemap(ctx context.Context) error {
 }
 
 func GetListSitemapURLs(domain string) ([]string, error) {
-	pageURLs := make([]string, 0, 0)
+	pageURLs := make([]string, 0)
 
 	errGetUrls := sitemap.ParseFromSite("https://"+domain+"/sitemap.xml", func(e sitemap.Entry) error {
 		pageURLs = append(pageURLs, e.GetLocation())
@@ -86,7 +88,7 @@ func GetListSitemapURLs(domain string) ([]string, error) {
 
 	CPrint("List of first 10 page URLs found")
 	for i, url := range pageURLs {
-		if i > 10 {
+		if i > FirstTen {
 			break
 		}
 		CPrint("\t", url)
