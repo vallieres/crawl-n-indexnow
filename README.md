@@ -1,9 +1,10 @@
 <!-- markdownlint-disable MD002 MD013 MD033 MD041 -->
 <h1 align="center">
   <a name="logo" href="https://github.com/vallieres/crawl-n-indexnow">
-    <img src="https://github.com/vallieres/crawl-n-indexnow/assets/182217/01bf723d-b7c9-476e-8271-817e5ee3a4d2" alt="Crawl n' IndexNow" width="200"></a>
+    <img src="https://github.com/vallieres/crawl-n-indexnow/assets/182217/48b7e05b-155a-43e3-893a-e0d21f44f04a" alt="Crawl n' IndexNow" width="200"></a>
   <br>
-  Crawl n' IndexNow
+  Crawl n' IndexNow!
+
 </h1>
 <h4 align="center">Get the goods and ship 'em to the indexes!</h4>
 <div align="center"></div>
