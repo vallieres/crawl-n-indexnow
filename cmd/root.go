@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/spf13/cobra"
 )
@@ -17,10 +18,19 @@ const CrawlNIndexNowASCII = `
 
 const IndexNowEndpoint = "https://api.indexnow.org/IndexNow"
 
-func Root() *cobra.Command {
+func Root(version string, commit string, date string) *cobra.Command {
+	if date != "unknown" {
+		t, err := time.Parse(time.RFC3339, date)
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+		date = t.Format("2006-01-02")
+	}
 	rootCmd := &cobra.Command{
-		Use:   "crawl-n-indexnow",
-		Short: "Get the goods and ship 'em to the indexes!",
+		Use:     "crawl-n-indexnow",
+		Version: fmt.Sprintf("%s (%s) [%s]", version, date, commit),
+		Short:   "Get the goods and ship 'em to the indexes!",
 		Long: CrawlNIndexNowASCII + `
 Crawl n' Index is a simple CLI that pulls your Shopify site's URL, and 
 submits them to various indexes to speed up the indexing process.
@@ -40,14 +50,6 @@ func CPrint(msg ...interface{}) {
 	prefix = append(prefix, "[-]")
 	msg = append(prefix, msg...)
 	fmt.Println(msg...)
-}
-
-func CPrintNNL(msg ...interface{}) {
-	prefix := make([]interface{}, 0, 1)
-	prefix = append(prefix, "[-]")
-
-	msg = append(prefix, msg...)
-	fmt.Print(msg...)
 }
 
 func PrintBlankLine() {
