@@ -9,7 +9,8 @@
 <div align="center"></div>
 
 <font size="3">
-    <strong>Crawl n' IndexNow</strong> is a simple CLI that pulls your Shopify sitemaps, or regular website sitemap, and submits the URLs to various indexes to speed up the indexing process.
+    <strong>Crawl n' IndexNow</strong> is a simple CLI that pulls your Shopify or regular website sitemap, 
+        and submits the URLs to IndexNow to speed up the indexing process.
 </font>
 
 
@@ -28,7 +29,7 @@ go install github.com/vallieres/crawl-n-indexnow@latest
 crawl-n-indexnow shopify --domain legacygoods.co --key a1b3c34d
 ```
 
-This will crawl the [LegacyGoods Co.](https://legacygoods.co) domain, list the found URLs from its sitemaps and submit 
+This will crawl the [Legacy Goods Co.](https://legacygoods.co) domain, list the found URLs from its sitemaps and submit 
 them all to IndexNow.
 
 ### Submit All Sitemap URLs to Index
