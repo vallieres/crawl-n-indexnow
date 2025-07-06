@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	sitemap "github.com/oxffaa/gopher-parse-sitemap"
@@ -13,7 +14,8 @@ import (
 const FirstTen = 10
 
 func Sitemap() *cobra.Command {
-	IndexNowCmd = &cobra.Command{
+	var domain, indexNowKey string
+	indexNowCmd := &cobra.Command{
 		Use:   "sitemap",
 		Short: "Sends all of the Sitemap URLs to IndexNow.",
 		Long: CrawlNIndexNowASCII + `
@@ -21,19 +23,19 @@ func Sitemap() *cobra.Command {
 Gathers all of the website's URLs by parsing every single sitemap pages, 
 packages them nicely and posts them to IndexNow's API.'.
 `,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			return executeSitemap(cmd.Context())
 		},
 	}
 
-	IndexNowCmd.PersistentFlags().StringVar(&domain, "domain", "", "the website's domain")
-	IndexNowCmd.PersistentFlags().StringVar(&indexNowKey, "key", "", "the IndexNow key")
+	indexNowCmd.PersistentFlags().StringVar(&domain, "domain", "", "the website's domain")
+	indexNowCmd.PersistentFlags().StringVar(&indexNowKey, "key", "", "the IndexNow key")
 
 	cliContext := util.NewCLIContext(&domain, &indexNowKey)
 	ctx := util.WithService(cliContext, &domain, &indexNowKey)
-	IndexNowCmd.SetContext(ctx)
+	indexNowCmd.SetContext(ctx)
 
-	return IndexNowCmd
+	return indexNowCmd
 }
 
 func executeSitemap(ctx context.Context) error {
@@ -44,7 +46,7 @@ func executeSitemap(ctx context.Context) error {
 		return fmt.Errorf("error pulling the Domain from the context: %w", errGetDomain)
 	}
 	if *domainCtx == "" {
-		return fmt.Errorf("domain is required to execute this command")
+		return errors.New("domain is required to execute this command")
 	}
 
 	indexNowKeyCtx, errGetIndexNowKey := util.GetIndexNowKey(ctx)
@@ -52,7 +54,7 @@ func executeSitemap(ctx context.Context) error {
 		return fmt.Errorf("error pulling the IndexNowKey from the context: %w", errGetIndexNowKey)
 	}
 	if *indexNowKeyCtx == "" {
-		return fmt.Errorf("indexNowKey is required to execute this command")
+		return errors.New("indexNowKey is required to execute this command")
 	}
 
 	listURLs, errGetURLs := GetListSitemapURLs(*domainCtx)

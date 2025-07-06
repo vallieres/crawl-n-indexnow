@@ -2,7 +2,7 @@ package util
 
 import (
 	"context"
-	"fmt"
+	"errors"
 )
 
 type cliContextKey string
@@ -36,7 +36,7 @@ func WithService(ctx context.Context, domain *string, indexNowKey *string) conte
 func GetDomain(ctx context.Context) (*string, error) {
 	cliCtx, ok := ctx.Value(cliContextKey("cliContext")).(*CLIContext)
 	if !ok {
-		return nil, fmt.Errorf("failed to get the DOmain through CLIContext from context")
+		return nil, errors.New("failed to get the DOmain through CLIContext from context")
 	}
 
 	return cliCtx.Domain, nil
@@ -46,7 +46,7 @@ func GetDomain(ctx context.Context) (*string, error) {
 func GetIndexNowKey(ctx context.Context) (*string, error) {
 	cliCtx, ok := ctx.Value(cliContextKey("cliContext")).(*CLIContext)
 	if !ok {
-		return nil, fmt.Errorf("failed to get the IndexNowKey through CLIContext from context")
+		return nil, errors.New("failed to get the IndexNowKey through CLIContext from context")
 	}
 
 	return cliCtx.IndexNowKey, nil

@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -16,18 +17,14 @@ import (
 	"github.com/vallieres/crawl-n-indexnow/util"
 )
 
-var (
-	IndexNowCmd         *cobra.Command
-	domain, indexNowKey string
-)
-
 const (
 	Ten   = 10
 	Sixty = 60
 )
 
 func Shopify() *cobra.Command {
-	IndexNowCmd = &cobra.Command{
+	var domain, indexNowKey string
+	indexNowCmd := &cobra.Command{
 		Use:   "shopify",
 		Short: "Sends all of the Shopify's URLs to IndexNow.",
 		Long: CrawlNIndexNowASCII + `
@@ -35,19 +32,19 @@ func Shopify() *cobra.Command {
 Gathers all of the Shopify's URL by parsing every single sitemap pages, 
 packages them nicely and posts them to IndexNow's API.'.
 `,
-		RunE: func(cmd *cobra.Command, args []string) error {
+		RunE: func(cmd *cobra.Command, _ []string) error {
 			return executeIndexNow(cmd.Context())
 		},
 	}
 
-	IndexNowCmd.PersistentFlags().StringVar(&domain, "domain", "", "the Shopify domain")
-	IndexNowCmd.PersistentFlags().StringVar(&indexNowKey, "key", "", "the IndexNow key")
+	indexNowCmd.PersistentFlags().StringVar(&domain, "domain", "", "the Shopify domain")
+	indexNowCmd.PersistentFlags().StringVar(&indexNowKey, "key", "", "the IndexNow key")
 
 	cliContext := util.NewCLIContext(&domain, &indexNowKey)
 	ctx := util.WithService(cliContext, &domain, &indexNowKey)
-	IndexNowCmd.SetContext(ctx)
+	indexNowCmd.SetContext(ctx)
 
-	return IndexNowCmd
+	return indexNowCmd
 }
 
 func executeIndexNow(ctx context.Context) error {
@@ -58,7 +55,7 @@ func executeIndexNow(ctx context.Context) error {
 		return fmt.Errorf("error pulling the Domain from the context: %w", errGetDomain)
 	}
 	if *domainCtx == "" {
-		return fmt.Errorf("domain is required to execute this command")
+		return errors.New("domain is required to execute this command")
 	}
 
 	indexNowKeyCtx, errGetIndexNowKey := util.GetIndexNowKey(ctx)
@@ -66,7 +63,7 @@ func executeIndexNow(ctx context.Context) error {
 		return fmt.Errorf("error pulling the IndexNowKey from the context: %w", errGetIndexNowKey)
 	}
 	if *indexNowKeyCtx == "" {
-		return fmt.Errorf("indexNowKey is required to execute this command")
+		return errors.New("indexNowKey is required to execute this command")
 	}
 
 	listURLs, errGetURLs := GetListOfShopifyURLs(*domainCtx)
@@ -189,7 +186,8 @@ func POSTtoIndexNow(domain string, indexNowKey string, pageURLs []string) (strin
 	200			Ok						RL submitted successfully
 	400			Bad request				Invalid format
 	403			Forbidden				In case of key not valid (e.g. key not found, file found but key not in the file)
-	422			Unprocessable Entity	In case of URLs don’t belong to the host or the key is not matching the schema in the protocol
+	422			Unprocessable Entity	In case of URLs don’t belong to the host or the key is not matching
+										the schema in the protocol
 	429			Too Many Requests		Too Many Requests (potential Spam)
 	*/
 

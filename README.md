@@ -1,4 +1,5 @@
 <!-- markdownlint-disable MD002 MD013 MD033 MD041 -->
+
 <h1 align="center">
   <a name="logo" href="https://github.com/vallieres/crawl-n-indexnow">
     <img src="https://github.com/vallieres/crawl-n-indexnow/assets/182217/48b7e05b-155a-43e3-893a-e0d21f44f04a" alt="Crawl n' IndexNow" width="200"></a>
@@ -14,10 +15,10 @@
         and submits the URLs to IndexNow to speed up the indexing process.
 </font>
 
-
 ## ⚡️ Quickstart
 
 Install the CLI:
+
 ```bash
 go install github.com/vallieres/crawl-n-indexnow@latest
 ```
@@ -30,7 +31,7 @@ go install github.com/vallieres/crawl-n-indexnow@latest
 crawl-n-indexnow shopify --domain legacygoods.co --key a1b3c34d
 ```
 
-This will crawl the [Legacy Goods Co.](https://legacygoods.co) domain, list the found URLs from its sitemaps and submit 
+This will crawl the [Legacy Goods Co.](https://legacygoods.co) domain, list the found URLs from its sitemaps and submit
 them all to IndexNow.
 
 ### Submit All Sitemap URLs to Index
